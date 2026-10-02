@@ -20,10 +20,18 @@ export default function WorkHero() {
   const [portraitFailed,setPortraitFailed]=useState(false);
   const [coarse,setCoarse]=useState(false);
   const [small,setSmall]=useState(false);
+  const [ready,setReady]=useState(false);
   const controls=useRef([]);
-  const active=focused??hovered??chosen;
+  const active=ready?(focused??hovered??chosen):null;
   const current=active===null?null:heroWork[active];
 
+  useEffect(()=>{
+    const root=document.documentElement;
+    const sync=()=>setReady(root.classList.contains('hero-attached'));
+    const observer=new MutationObserver(sync);observer.observe(root,{attributes:true,attributeFilter:['class']});sync();
+    return()=>observer.disconnect();
+  },[]);
+  useEffect(()=>{if(!ready){setHovered(null);setFocused(null);setChosen(null);}},[ready]);
   useEffect(()=>{
     const pointer=window.matchMedia('(hover: none), (pointer: coarse)');
     const viewport=window.matchMedia('(max-width: 767px)');
@@ -34,7 +42,7 @@ export default function WorkHero() {
 
   const dismiss=()=>{setHovered(null);setFocused(null);setChosen(null);};
   const follow=event=>{
-    if(event.pointerType!=='mouse'||coarse||focused!==null)return;
+    if(!ready||event.pointerType!=='mouse'||coarse||focused!==null)return;
     if(event.target.closest('a,button'))return;
     const box=event.currentTarget.getBoundingClientRect();
     const next=Math.max(0,Math.min(2,Math.floor((event.clientX-box.left)/box.width*3)));
@@ -56,11 +64,11 @@ export default function WorkHero() {
 
   return <section className="hero work-hero" aria-labelledby="hero-title" data-work-state={current?.id??'portrait'} onPointerMove={follow} onPointerLeave={leave} onPointerCancel={()=>setHovered(null)} onKeyDown={event=>{if(event.key==='Escape'){event.preventDefault();dismiss();}}}>
     <div className="hero-photo work-stage">
-      <img className="work-portrait" src={portraitFailed?'/images/veriation/kripa-portrait-800.webp':'/images/veriation/kripa-studio-hero.png'} width="1672" height="941" alt={portraitFailed?'Kripa in her original brown satin courtyard portrait':'AI-styled studio portrait of Kripa in brown satin'} draggable="false" fetchPriority="high" onError={()=>setPortraitFailed(true)}/>
+      <img className="work-portrait" src={portraitFailed?'/images/veriation/kripa-floral-original.png':'/images/veriation/kripa-garden-hero.svg'} width="1672" height="941" alt="Kripa in her original pink floral dress and yellow hair flower, with an AI-enhanced garden background" draggable="false" fetchPriority="high" onError={()=>setPortraitFailed(true)}/>
       <div className="work-zones">{heroWork.map((look,index)=><div className={`work-zone ${active===index?'is-active':''}`} id={`hero-work-${look.id}`} key={look.id} aria-hidden={active!==index}>
         <div className="work-zone-photo"><WorkPhoto look={look} portraitFallback cropOverride={small?look.mobileCrop:undefined}/></div>
       </div>)}</div>
-      {!portraitFailed&&<span className="portrait-credit">AI-styled portrait</span>}
+      {!portraitFailed&&<span className="portrait-credit">Original portrait · AI-enhanced background</span>}
     </div>
     <div className="hero-caption">
       <div className="work-heading"><p className="eyebrow">VERIATION BY KRIPA</p><AnimatedHeading as="h1" id="hero-title">A world of her own.</AnimatedHeading><p>Her imagination. Worn your way.</p></div>

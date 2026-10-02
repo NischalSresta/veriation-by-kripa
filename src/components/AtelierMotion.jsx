@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { WorkPhoto } from './WorkHero';
+import { clientLooks } from '../data/landingLooks';
 
 const studies = [
   {word:'Sketch', note:'A line becomes a possibility.', copy:'Explore the silhouettes, details and individual stories behind her bespoke pieces.', path:'/bespoke', action:'Explore bespoke'},
@@ -20,19 +22,31 @@ export function CoutureLine({className=''}) {
 export default function AtelierMotion() {
   const [active,setActive]=useState(0);
   const ref=useRef(null);
+  const scene=useRef(null);
+  const manualAt=useRef(null);
   const tabs=useRef([]);
   useEffect(()=>{
-    const observer=new IntersectionObserver(([entry])=>ref.current?.classList.toggle('is-in-view',entry.isIntersecting),{threshold:.15});
+    const media=window.matchMedia('(prefers-reduced-motion: reduce)');let frame=0;
+    const update=()=>{frame=0;if(!scene.current||!ref.current||media.matches)return;
+      const box=scene.current.getBoundingClientRect();const header=innerWidth<768?64:76;
+      const progress=Math.max(0,Math.min(1,(header-box.top)/Math.max(1,box.height-innerHeight+header)));
+      ref.current.style.setProperty('--study-progress',progress);
+      if(manualAt.current===null||Math.abs(scrollY-manualAt.current)>24){manualAt.current=null;setActive(Math.min(2,Math.floor(progress*3)));}
+    };
+    const schedule=()=>{if(!frame)frame=requestAnimationFrame(update);};
+    const observer=new IntersectionObserver(([entry])=>{ref.current?.classList.toggle('is-in-view',entry.isIntersecting);if(entry.isIntersecting)schedule();},{threshold:.15});
     observer.observe(ref.current);
-    return()=>observer.disconnect();
+    window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule);media.addEventListener('change',schedule);update();
+    return()=>{observer.disconnect();cancelAnimationFrame(frame);window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);media.removeEventListener('change',schedule);};
   },[]);
+  const choose=index=>{manualAt.current=scrollY;setActive(index);};
   const current=studies[active];
-  return <section ref={ref} className={`atelier-study study-${active}`} aria-label="Explore Kripa’s creative world">
-    <div className="atelier-heading"><p className="eyebrow">A STUDY IN POSSIBILITY</p><p className="atelier-instruction">Three ways into her world. <span>Choose a word.</span></p></div>
+  return <div className="atelier-scroll-scene" ref={scene}><section ref={ref} className={`atelier-study study-${active}`} aria-label="Explore Kripa’s creative world">
+    <div className="atelier-heading"><p className="eyebrow">A STUDY IN POSSIBILITY</p><p className="atelier-instruction">A line. A fold. A life of its own. <span>Unfold as you scroll, or choose a word.</span></p></div>
     <div className="atelier-layout">
-      <div className="atelier-words" role="tablist" aria-label="A creative journey">{studies.map((study,index)=><button key={study.word} ref={node=>{tabs.current[index]=node;}} role="tab" id={`study-tab-${index}`} aria-controls="atelier-panel" aria-selected={active===index} tabIndex={active===index?0:-1} onClick={()=>setActive(index)} onKeyDown={event=>{let next;if(event.key==='ArrowDown'||event.key==='ArrowRight')next=(index+1)%3;if(event.key==='ArrowUp'||event.key==='ArrowLeft')next=(index+2)%3;if(event.key==='Home')next=0;if(event.key==='End')next=2;if(next!==undefined){event.preventDefault();setActive(next);tabs.current[next]?.focus();}}}><span className="atelier-number">0{index+1}</span><span className="atelier-word">{study.word}<span className="atelier-stop">.</span></span><ArrowUpRight aria-hidden="true"/></button>)}</div>
-      <div className="atelier-art"><CoutureLine/><span className="atelier-art-note">A visual study of form & flow</span></div>
+      <div className="atelier-words" role="tablist" aria-label="A creative journey">{studies.map((study,index)=><button key={study.word} ref={node=>{tabs.current[index]=node;}} role="tab" id={`study-tab-${index}`} aria-controls="atelier-panel" aria-selected={active===index} tabIndex={active===index?0:-1} onClick={()=>choose(index)} onKeyDown={event=>{let next;if(event.key==='ArrowDown'||event.key==='ArrowRight')next=(index+1)%3;if(event.key==='ArrowUp'||event.key==='ArrowLeft')next=(index+2)%3;if(event.key==='Home')next=0;if(event.key==='End')next=2;if(next!==undefined){event.preventDefault();choose(next);tabs.current[next]?.focus();}}}><span className="atelier-number">0{index+1}</span><span className="atelier-word">{study.word}<span className="atelier-stop">.</span></span><ArrowUpRight aria-hidden="true"/></button>)}</div>
+      <div className="atelier-art"><div className="atelier-photo" aria-hidden={active!==2}><WorkPhoto look={clientLooks[0]}/></div><CoutureLine/><span className="atelier-art-note">{active===2?'Wearing @designedbykripa':'A visual study of form & flow'}</span></div>
     </div>
     <div className="atelier-panel" id="atelier-panel" role="tabpanel" aria-labelledby={`study-tab-${active}`} tabIndex={0}><div key={active} className="atelier-panel-copy"><h2>{current.note}</h2><p>{current.copy}</p><Link className="text-link" to={current.path}>{current.action} <ArrowUpRight size={17}/></Link></div></div>
-  </section>;
+  </section></div>;
 }

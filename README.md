@@ -16,4 +16,4 @@ Netlify build command: `npm run build`; publish directory: `dist`. SPA rewrites 
 
 ## Demo and imagery
 
-Prices are estimated NPR fixtures. Checkout is a local demo; it does not take payments or submit orders. The hero portrait is AI-styled and labelled. Creator and bespoke photographs retain their source credits. The original Veriation wordmark moves from the hero into the header.
+Prices are estimated NPR fixtures. Checkout is a local demo; it does not take payments or submit orders. The homepage uses Kripa’s original floral photograph, clipped and composited without regenerating her face, body, hair or outfit, over a labelled AI-enhanced garden background. Creator and bespoke photographs retain their source credits. The original Veriation wordmark moves from the hero into the header.

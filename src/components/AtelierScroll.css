@@ -1,0 +1,25 @@
+/* A reversible scroll study: drawn line, a slice of fabric, then the real look. */
+.atelier-scroll-scene{height:220svh;position:relative;margin-top:80px}
+.atelier-scroll-scene .atelier-study{position:sticky;top:76px;height:calc(100svh - 76px);margin-top:0;padding:35px var(--gutter) 30px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:18px;background:#eee2dd}
+.atelier-scroll-scene .atelier-layout{min-height:0;grid-template-columns:1.2fr 1fr;gap:40px}
+.atelier-scroll-scene .atelier-words{animation:none;padding:15px 0;gap:8px}
+.atelier-scroll-scene .atelier-word{font-size:clamp(65px,8.6vw,128px)}
+.atelier-scroll-scene .atelier-art{min-height:0;max-height:470px;width:100%;max-width:380px;justify-self:center}
+.atelier-photo{position:absolute;inset:0 0 20px;opacity:0;overflow:hidden;clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);transform:translateY(20px);transition:clip-path 900ms var(--ease),opacity 500ms ease,transform 900ms var(--ease)}
+.atelier-scroll-scene .couture-line{position:absolute;inset:0;width:100%;height:100%;max-height:none;z-index:1;transition:opacity 550ms ease,transform 900ms var(--ease)}
+.atelier-scroll-scene .seam{animation:none!important;transition:stroke-dashoffset 1200ms var(--ease)}
+.atelier-scroll-scene .atelier-study .seam-outline{stroke-dashoffset:calc(1 - min(1,var(--study-progress,0)*5))}
+.atelier-scroll-scene .atelier-study.is-in-view .seam-drape{stroke-dashoffset:0}
+.atelier-scroll-scene .study-1 .atelier-photo{opacity:1;transform:none;clip-path:polygon(0 53%,100% 15%,100% 49%,0 87%)}
+.atelier-scroll-scene .study-1 .couture-line{opacity:.6;transform:rotate(-5deg)}
+.atelier-scroll-scene .study-2 .atelier-photo{opacity:1;transform:none;clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+.atelier-scroll-scene .study-2 .couture-line{opacity:0;transform:translateY(-18px)}
+.atelier-scroll-scene .atelier-art-note{bottom:-3px;right:0;max-width:none;color:var(--plum);font-size:9px}
+.atelier-scroll-scene .atelier-panel{min-height:145px;max-width:none;display:grid;align-content:center;padding-top:20px}
+.atelier-scroll-scene .atelier-panel-copy{display:grid;grid-template-columns:1fr auto;gap:6px 35px;align-items:center}
+.atelier-scroll-scene .atelier-panel h2{font-size:clamp(30px,3.2vw,47px);grid-column:1;margin-bottom:4px}
+.atelier-scroll-scene .atelier-panel p{grid-column:1;margin:0;max-width:550px}
+.atelier-scroll-scene .atelier-panel .text-link{grid-column:2;grid-row:1/span 2}
+@media(max-width:767px){.atelier-scroll-scene{margin-top:55px;height:210svh}.atelier-scroll-scene .atelier-study{top:64px;height:calc(100svh - 64px);padding:25px var(--gutter);gap:18px}.atelier-scroll-scene .atelier-layout{grid-template-columns:1.05fr 1fr;gap:12px}.atelier-scroll-scene .atelier-word{font-size:clamp(36px,10.6vw,66px)}.atelier-scroll-scene .atelier-words button{min-height:65px;gap:7px}.atelier-scroll-scene .atelier-number{font-size:7px}.atelier-scroll-scene .atelier-art{position:relative;right:auto;top:auto;width:100%;height:100%;opacity:1;pointer-events:auto;max-height:355px}.atelier-scroll-scene .atelier-art-note{display:block;font-size:7px}.atelier-scroll-scene .atelier-panel{min-height:160px}.atelier-scroll-scene .atelier-panel-copy{display:block}.atelier-scroll-scene .atelier-panel h2{font-size:29px}.atelier-scroll-scene .atelier-panel p{margin-bottom:16px}.atelier-scroll-scene .atelier-instruction{max-width:145px;font-size:8px}.atelier-scroll-scene .atelier-words{max-width:none}}
+@media(max-height:650px){.atelier-scroll-scene .atelier-study{gap:8px;padding-top:15px;padding-bottom:15px}.atelier-scroll-scene .atelier-panel{min-height:115px}.atelier-scroll-scene .atelier-word{font-size:clamp(35px,8vw,65px)}.atelier-scroll-scene .atelier-words button{min-height:45px;padding:2px 0}.atelier-scroll-scene .atelier-panel h2{font-size:26px}}
+@media(prefers-reduced-motion:reduce){.atelier-scroll-scene{height:auto}.atelier-scroll-scene .atelier-study{position:relative;top:0;height:auto;min-height:650px}.atelier-scroll-scene .atelier-art{min-height:300px}.atelier-scroll-scene .seam-outline{stroke-dashoffset:0!important}.atelier-photo,.atelier-scroll-scene .couture-line{transition:none;transform:none}}

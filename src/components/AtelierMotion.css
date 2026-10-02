@@ -1,8 +1,8 @@
 .brand-logo{grid-column:2;justify-self:center;display:grid;align-items:center;min-height:44px}
 .header .brand-logo img{height:auto;display:block;filter:none}
 .header{background:var(--ivory);backdrop-filter:none}
-.home-motion .header .brand-morph{position:fixed;left:50%;top:var(--hero-logo-y,38px);width:var(--header-logo-width);transform:translate(-50%,-50%) scale(var(--hero-logo-scale,1));transform-origin:center;transition:none;will-change:transform,top;justify-self:auto;grid-column:auto}
-.home-motion .header.over-hero .brand-morph img{filter:drop-shadow(0 2px 4px #211d2033)}
+.home-motion .header .brand-morph{position:fixed;left:50%;top:var(--hero-logo-y,38px);width:var(--hero-logo-width,var(--header-logo-width));transform:translate(-50%,-50%);transform-origin:center;transition:none;justify-self:auto;grid-column:auto}
+.home-motion .header.over-hero .brand-morph img{filter:none}
 .header.over-hero .brand-home{color:var(--ivory)}
 .home-motion .announcement{display:none}
 .header.over-hero::before{display:none}

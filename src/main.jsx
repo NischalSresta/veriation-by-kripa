@@ -11,6 +11,7 @@ import './styles.css';
 import './premium.css';
 import './components/WorkHero.css';
 import './components/AtelierMotion.css';
+import './components/AtelierScroll.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
