@@ -3,13 +3,17 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { AnimatedHeading } from './Editorial';
 import { clientLooks, heroWork } from '../data/landingLooks';
+import { heroPlaceholder } from '../data/heroPlaceholder';
 
 export function WorkPhoto({look, decorative=false, portraitFallback=false, cropOverride}) {
   const [failed,setFailed]=useState(false);
+  const [loaded,setLoaded]=useState(false);
+  const imageRef=useRef(null);
+  useEffect(()=>{const observer=new IntersectionObserver(([entry])=>{if(entry.isIntersecting){setLoaded(true);observer.disconnect();}},{rootMargin:"300px"});if(imageRef.current)observer.observe(imageRef.current);return()=>observer.disconnect();},[]);
   const crop=cropOverride??look.crop;
   if(failed)return portraitFallback?null:<div className="work-image-error" role={decorative?undefined:'img'} aria-label={decorative?undefined:look.detail}>Photograph unavailable</div>;
-  return <svg className="work-photo" viewBox={`${crop.x} ${crop.y} ${crop.width} ${crop.height}`} preserveAspectRatio={`${look.align} slice`} role={decorative?undefined:'img'} aria-label={decorative?undefined:`${look.name}: ${look.detail}. ${look.credit}.`} aria-hidden={decorative?true:undefined} focusable="false" style={{background:look.background}}>
-    <image href={`/images/veriation/work/${look.image}.png`} x="0" y="0" width={look.width} height={look.height} onError={()=>setFailed(true)}/>
+  return <svg ref={imageRef} className="work-photo" viewBox={`${crop.x} ${crop.y} ${crop.width} ${crop.height}`} preserveAspectRatio={`${look.align} slice`} role={decorative?undefined:'img'} aria-label={decorative?undefined:`${look.name}: ${look.detail}. ${look.credit}.`} aria-hidden={decorative?true:undefined} focusable="false" style={{background:look.background}}>
+    <image href={loaded?`/images/veriation/work/${look.image}.webp`:undefined} x="0" y="0" width={look.width} height={look.height} onError={()=>setFailed(true)}/>
   </svg>;
 }
 
@@ -63,9 +67,12 @@ export default function WorkHero() {
   };
 
   return <section className="hero work-hero" aria-labelledby="hero-title" data-work-state={current?.id??'portrait'} onPointerMove={follow} onPointerLeave={leave} onPointerCancel={()=>setHovered(null)} onKeyDown={event=>{if(event.key==='Escape'){event.preventDefault();dismiss();}}}>
-    <div className="hero-photo work-stage">
-      <img className="work-portrait" src={portraitFailed?'/images/veriation/kripa-floral-original.png':'/images/veriation/kripa-garden-hero-clear-v2.svg'} width="1672" height="941" alt="Kripa in her original pink floral dress and yellow hair flower, with an AI-enhanced garden background" draggable="false" fetchPriority="high" onError={()=>setPortraitFailed(true)}/>
-      <div className="work-zones">{heroWork.map((look,index)=><div className={`work-zone ${active===index?'is-active':''}`} id={`hero-work-${look.id}`} key={look.id} aria-hidden={active!==index}>
+    <div className="hero-photo work-stage" style={{backgroundImage:`url(${heroPlaceholder})`,backgroundSize:"cover",backgroundPosition:"50% 32%"}}>
+      <picture>
+        {!portraitFailed&&<source media="(max-width: 767px)" srcSet="/images/veriation/kripa-floral-hero-mobile-480.webp 480w, /images/veriation/kripa-floral-hero-mobile-768.webp 768w" sizes="100vw"/>}
+        <img className="work-portrait" src={portraitFailed?'/images/veriation/kripa-floral-original.png':'/images/veriation/kripa-floral-hero-1600.webp'} srcSet={portraitFailed?undefined:'/images/veriation/kripa-floral-hero-1000.webp 1000w, /images/veriation/kripa-floral-hero-1600.webp 1600w'} sizes="100vw" width="1672" height="941" alt="Kripa in her original pink floral dress and yellow hair flower, in a garden of rose, ivory and plum flowers" draggable="false" loading="eager" decoding="async" fetchPriority="high" onError={()=>setPortraitFailed(true)}/>
+      </picture>
+      <div className="work-zones">{ready&&heroWork.map((look,index)=><div className={`work-zone ${active===index?'is-active':''}`} id={`hero-work-${look.id}`} key={look.id} aria-hidden={active!==index}>
         <div className="work-zone-photo"><WorkPhoto look={look} portraitFallback cropOverride={small?look.mobileCrop:undefined}/></div>
       </div>)}</div>
 
