@@ -64,7 +64,7 @@ export default function WorkHero() {
 
   return <section className="hero work-hero" aria-labelledby="hero-title" data-work-state={current?.id??'portrait'} onPointerMove={follow} onPointerLeave={leave} onPointerCancel={()=>setHovered(null)} onKeyDown={event=>{if(event.key==='Escape'){event.preventDefault();dismiss();}}}>
     <div className="hero-photo work-stage">
-      <img className="work-portrait" src={portraitFailed?'/images/veriation/kripa-floral-original.png':'/images/veriation/kripa-garden-hero.svg'} width="1672" height="941" alt="Kripa in her original pink floral dress and yellow hair flower, with an AI-enhanced garden background" draggable="false" fetchPriority="high" onError={()=>setPortraitFailed(true)}/>
+      <img className="work-portrait" src={portraitFailed?'/images/veriation/kripa-floral-original.png':'/images/veriation/kripa-garden-hero-clear.svg'} width="1672" height="941" alt="Kripa in her original pink floral dress and yellow hair flower, with an AI-enhanced garden background" draggable="false" fetchPriority="high" onError={()=>setPortraitFailed(true)}/>
       <div className="work-zones">{heroWork.map((look,index)=><div className={`work-zone ${active===index?'is-active':''}`} id={`hero-work-${look.id}`} key={look.id} aria-hidden={active!==index}>
         <div className="work-zone-photo"><WorkPhoto look={look} portraitFallback cropOverride={small?look.mobileCrop:undefined}/></div>
       </div>)}</div>
