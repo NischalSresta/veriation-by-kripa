@@ -8,6 +8,7 @@ import Product from './pages/Product';
 import Bag from './pages/Bag';
 import NotFound from './pages/NotFound';
 import PageMotion from './components/PageMotion';
+import PageImageWarmup from './components/PageImageWarmup';
 import { Bespoke, MeetKripa, WornBy } from './pages/Studio';
 
 export default function App() {
@@ -65,6 +66,7 @@ export default function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
+        <PageImageWarmup />
         <Footer />
       </div>
     </PageMotion>

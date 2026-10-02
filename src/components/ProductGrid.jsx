@@ -25,7 +25,7 @@ export function ProductCard({
         }}
         onFocus={() => setPreview(true)}
       >
-        <div className="product-image">
+        <div className="product-image" data-preload-images={product.images[1]?imagePath(product.images[1],560):undefined}>
           <Image
             src={imagePath(product.images[0], 400)}
             srcSet={`${imagePath(product.images[0], 400)} 400w, ${imagePath(product.images[0], 560)} 560w, ${imagePath(product.images[0])} 1000w`}

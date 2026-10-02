@@ -13,7 +13,7 @@ export function WorkPhoto({look, decorative=false, portraitFallback=false, cropO
   const crop=cropOverride??look.crop;
   if(failed)return portraitFallback?null:<div className="work-image-error" role={decorative?undefined:'img'} aria-label={decorative?undefined:look.detail}>Photograph unavailable</div>;
   return <svg ref={imageRef} className="work-photo" viewBox={`${crop.x} ${crop.y} ${crop.width} ${crop.height}`} preserveAspectRatio={`${look.align} slice`} role={decorative?undefined:'img'} aria-label={decorative?undefined:`${look.name}: ${look.detail}. ${look.credit}.`} aria-hidden={decorative?true:undefined} focusable="false" style={{background:look.background}}>
-    <image href={loaded?`/images/veriation/work/${look.image}.webp`:undefined} x="0" y="0" width={look.width} height={look.height} onError={()=>setFailed(true)}/>
+    <image data-preload-src={`/images/veriation/work/${look.image}.webp`} href={loaded?`/images/veriation/work/${look.image}.webp`:undefined} x="0" y="0" width={look.width} height={look.height} onError={()=>setFailed(true)}/>
   </svg>;
 }
 
@@ -67,7 +67,7 @@ export default function WorkHero() {
   };
 
   return <section className="hero work-hero" aria-labelledby="hero-title" data-work-state={current?.id??'portrait'} onPointerMove={follow} onPointerLeave={leave} onPointerCancel={()=>setHovered(null)} onKeyDown={event=>{if(event.key==='Escape'){event.preventDefault();dismiss();}}}>
-    <div className="hero-photo work-stage" style={{backgroundImage:`url(${heroPlaceholder})`,backgroundSize:"cover",backgroundPosition:"50% 32%"}}>
+    <div className="hero-photo work-stage" data-preload-images={heroWork.map(look=>`/images/veriation/work/${look.image}.webp`).join("|")} style={{backgroundImage:`url(${heroPlaceholder})`,backgroundSize:"cover",backgroundPosition:"50% 32%"}}>
       <picture>
         {!portraitFailed&&<source media="(max-width: 767px)" srcSet="/images/veriation/kripa-garden-wide-mobile-480.webp 480w, /images/veriation/kripa-garden-wide-mobile-768.webp 768w" sizes="100vw"/>}
         <img className="work-portrait" src={portraitFailed?'/images/veriation/kripa-floral-original.png':'/images/veriation/kripa-garden-wide-1600.webp'} srcSet={portraitFailed?undefined:'/images/veriation/kripa-garden-wide-1000.webp 1000w, /images/veriation/kripa-garden-wide-1600.webp 1600w'} sizes="100vw" width="1672" height="941" alt="Kripa in her original pink floral dress and yellow hair flower, in a garden of rose, ivory and plum flowers" draggable="false" loading="eager" decoding="async" fetchPriority="high" onError={()=>setPortraitFailed(true)}/>

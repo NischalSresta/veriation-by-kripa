@@ -24,7 +24,7 @@ export function WornStories({compact=false}){
  const change=(n)=>setActive((n+items.length)%items.length);
  return <section className="worn-section section" id="worn-by">
   <div className="section-heading"><div><p className="eyebrow">THE PIECES, THE PEOPLE</p><AnimatedHeading as={compact?'h2':'h1'}>Worn by. Made personal.</AnimatedHeading></div>{compact&&<Link className="text-link" to="/worn-by">All the stories <ArrowUpRight size={18}/></Link>}</div>
-  <div className="worn-layout">
+  <div className="worn-layout" data-preload-images={items.map(item=>imagePath(item.image,800)).join("|")}>
    <div className="worn-photo" onPointerDown={e=>{if(e.pointerType==='touch')start.current=e.clientX;}} onPointerUp={e=>{if(start.current!==null){const distance=e.clientX-start.current;if(Math.abs(distance)>45)change(active+(distance<0?1:-1));start.current=null;}}}>
     <EditorialPhoto key={current.image} name={current.image} alt={`${current.name} wearing work credited to Kripa`}/><span className="worn-photo-caption">A piece of her story.</span>
    </div>
@@ -44,7 +44,7 @@ export function ProjectGallery({items=projects,compact=false}){
  const [selected,setSelected]=useState(null);const [photo,setPhoto]=useState(0);
  const images=selected?.images||[];
  const move=n=>setPhoto((n+images.length)%images.length);
- return <><div className={`bespoke-grid ${compact?'compact':''}`}>{items.map(item=><Reveal as="article" className="bespoke-project" key={item.id} id={item.id}>
+ return <><div className={`bespoke-grid ${compact?'compact':''}`} data-preload-images={items.flatMap(item=>item.images.map(name=>imagePath(name,1600))).join("|")}>{items.map(item=><Reveal as="article" className="bespoke-project" key={item.id} id={item.id}>
   <button className="project-photo" onClick={()=>{setSelected(item);setPhoto(0);}} aria-label={`View ${item.occasion} gallery`}><EditorialPhoto name={item.images[0]} alt={`${item.person} — ${item.occasion}`}/><span className="project-zoom"><Maximize2 size={17}/></span></button>
   <div className="project-caption"><span className="eyebrow">{item.occasion}</span><h3>{item.name}</h3><p>{item.person}</p>{!compact&&<><p className="project-description">{item.description}</p><a className="source-link" href={item.source} target="_blank" rel="noreferrer">Original story <ArrowUpRight size={13}/></a></>}</div>
  </Reveal>)}</div>
