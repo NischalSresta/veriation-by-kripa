@@ -54,7 +54,7 @@ export function ProjectGallery({items=projects,compact=false}){
   <p>{selected.description}</p><a className="text-link" href={brand.bespoke} target="_blank" rel="noreferrer">Discuss your bespoke piece <ArrowUpRight size={17}/></a>
  </div>}</Dialog></>;
 }
-export function BespokePreview(){return <section className="bespoke-preview section"><div className="section-heading"><div><p className="eyebrow">DESIGNED BY KRIPA</p><AnimatedHeading>Made for your moment.</AnimatedHeading></div><Link className="text-link" to="/bespoke">Explore bespoke <ArrowUpRight size={18}/></Link></div><ProjectGallery items={projects.slice(0,3)} compact/><div className="bespoke-preview-note"><p>Some pieces are chosen.<br/><em>Others are imagined, just for you.</em></p><a className="text-link" href={brand.bespoke} target="_blank" rel="noreferrer">Begin a conversation <ArrowUpRight size={18}/></a></div></section>;}
+export function BespokePreview(){const preview=[projects[2],{...projects[3],images:['luni-beach','luni-vietnam']},projects[5]];return <section className="bespoke-preview section"><div className="section-heading"><div><p className="eyebrow">DESIGNED BY KRIPA</p><AnimatedHeading>Made for your moment.</AnimatedHeading></div><Link className="text-link" to="/bespoke">Explore bespoke <ArrowUpRight size={18}/></Link></div><ProjectGallery items={preview} compact/><div className="bespoke-preview-note"><p>Some pieces are chosen.<br/><em>Others are imagined, just for you.</em></p><a className="text-link" href={brand.bespoke} target="_blank" rel="noreferrer">Begin a conversation <ArrowUpRight size={18}/></a></div></section>;}
 export function FounderStory({full=false}){
  const [playing,setPlaying]=useState(false);
  const [filmFailed,setFilmFailed]=useState(false);

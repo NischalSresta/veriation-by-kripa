@@ -70,7 +70,7 @@ export default function Header() {
         >
           <Menu />
         </button>
-        <Link className="brand-home" to="/" aria-label="Veriation home">By Kripa.</Link>
+        <Link className={`brand-logo ${location.pathname==='/'?'brand-morph':''}`} to="/" aria-label="Veriation home"><img src={`/images/veriation/veriation-wordmark${overHero?'-white':''}.svg`} width="865" height="365" alt="Veriation Fashion Studio" /></Link>
         <div className="header-actions">
           <button
             onClick={() => setSearch(true)}

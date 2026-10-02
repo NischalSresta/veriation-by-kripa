@@ -7,18 +7,19 @@ import { Image, Reveal } from '../components/UI';
 import { AnimatedHeading, Appreciation, BespokePreview, FounderStory, WornStories } from '../components/Editorial';
 import WorkHero, { ClientWorkShowcase } from '../components/WorkHero';
 import AtelierMotion from '../components/AtelierMotion';
+import BloomGarden from '../components/BloomGarden';
 
 // Shared by the scroll morph and anchor navigation, so both land consistently.
 export function heroSizes() {
   const mobile = window.innerWidth < 768;
   const expanded = Math.max(
-    window.innerHeight - (mobile ? 26 : 28),
+    window.innerHeight,
     mobile ? 520 : 540,
   );
   return {
     expanded,
     collapsed: expanded - Math.min(40, window.innerHeight * 0.03),
-    travel: Math.max(120, window.innerHeight * 0.16),
+    travel: Math.max(320, Math.min(620, window.innerHeight * 0.65)),
   };
 }
 
@@ -27,31 +28,40 @@ export default function Home() {
     const root = document.documentElement;
     root.classList.add('home-motion');
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let frame = 0;
-    function update() {
+    let frame = 0, displayed = null, lastTime = 0;
+    function update(time=performance.now()) {
       frame = 0;
       const mobile = window.innerWidth < 768;
-      const { expanded, collapsed, travel } = heroSizes();
-      const progress = motion.matches
+      const { expanded, travel } = heroSizes();
+      const target = motion.matches
         ? 1
         : Math.min(1, Math.max(0, window.scrollY / travel));
-      const logoStart = Math.max(190, Math.min(360, window.innerWidth * 0.28));
+      if(displayed===null||motion.matches)displayed=target;
+      const delta=Math.min(64,Math.max(1,time-lastTime||16));lastTime=time;
+      displayed+=(target-displayed)*(1-Math.exp(-delta/65));
+      if(Math.abs(target-displayed)<0.0005)displayed=target;
+      const progress=displayed*displayed*(3-2*displayed);
+      const logoStart = Math.max(205, Math.min(460, window.innerWidth * 0.35));
       const logoEnd = parseFloat(getComputedStyle(root).getPropertyValue('--header-logo-width'));
       root.style.setProperty(
         '--hero-height',
-        `${motion.matches ? expanded : expanded + (collapsed - expanded) * progress}px`,
+        `${expanded}px`,
       );
+      root.style.setProperty('--hero-travel',`${motion.matches?0:travel+200}px`);
       root.style.setProperty('--hero-progress', progress);
       root.style.setProperty(
         '--hero-logo-y',
-        `${window.innerHeight / 2 + ((mobile ? 32 : 38) - window.innerHeight / 2) * progress}px`,
+        `${window.innerHeight * 0.43 + ((mobile ? 32 : 38) - window.innerHeight * 0.43) * progress}px`,
       );
       root.style.setProperty(
         '--hero-logo-width',
         `${logoStart + (logoEnd - logoStart) * progress}px`,
       );
       root.style.setProperty('--hero-nav-opacity', Math.min(1, progress * 4));
+      root.style.setProperty('--hero-logo-scale', (logoStart + (logoEnd-logoStart)*progress)/logoEnd);
       root.classList.toggle('hero-opening', progress < 0.04);
+      root.classList.toggle('hero-attached',progress>=0.94);
+      if(displayed!==target)frame=requestAnimationFrame(update);
     }
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -66,6 +76,7 @@ export default function Home() {
       window.removeEventListener('resize', schedule);
       motion.removeEventListener('change', schedule);
       root.classList.remove('hero-opening');
+      root.classList.remove('hero-attached');
       root.classList.remove('home-motion');
       [
         '--hero-height',
@@ -73,12 +84,14 @@ export default function Home() {
         '--hero-logo-y',
         '--hero-logo-width',
         '--hero-nav-opacity',
+        '--hero-logo-scale',
+        '--hero-travel',
       ].forEach((name) => root.style.removeProperty(name));
     };
   }, []);
   return (
     <div className="home-editorial">
-      <WorkHero/>
+      <div className="hero-scroll-scene"><WorkHero/></div>
 
       <Reveal as="section" className="section" id="new-arrivals">
         <div className="section-heading">
@@ -91,6 +104,7 @@ export default function Home() {
       <AtelierMotion/>
       <ClientWorkShowcase/>
       <WornStories compact />
+      <BloomGarden/>
       <BespokePreview />
       <FounderStory />
       <Appreciation />
