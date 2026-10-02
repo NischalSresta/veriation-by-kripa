@@ -51,7 +51,7 @@ export default function Home() {
       root.style.setProperty('--hero-progress', progress);
       root.style.setProperty(
         '--hero-logo-y',
-        `${window.innerHeight * (mobile ? 0.24 : 0.20) + ((mobile ? 32 : 38) - window.innerHeight * (mobile ? 0.24 : 0.20)) * progress}px`,
+        `${window.innerHeight * (mobile ? 0.45 : 0.43) + ((mobile ? 32 : 38) - window.innerHeight * (mobile ? 0.45 : 0.43)) * progress}px`,
       );
       root.style.setProperty(
         '--hero-logo-width',
