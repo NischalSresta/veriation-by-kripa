@@ -12,6 +12,7 @@ import './premium.css';
 import './components/WorkHero.css';
 import './components/AtelierMotion.css';
 import './components/AtelierScroll.css';
+import './HomePolish.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>

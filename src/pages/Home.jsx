@@ -98,7 +98,7 @@ export default function Home() {
           <div><p className="eyebrow">THE EVERYDAY EDIT</p><AnimatedHeading>Wear it your way.</AnimatedHeading><p>Original studio favourites, ready for your wardrobe.</p></div>
           <Link className="text-link" to="/shop?collection=everyday-edit">View the edit <ArrowUpRight size={19} /></Link>
         </div>
-        <ProductGrid products={['duo-charm-top-white','lumi-top-brown','nora-jacket','japandi-top-pink'].map(slug=>products.find(p=>p.slug===slug)).filter(Boolean)} />
+        <ProductGrid showControls products={['duo-charm-top-white','lumi-top-brown','nora-jacket','japandi-top-pink'].map(slug=>products.find(p=>p.slug===slug)).filter(Boolean)} />
       </Reveal>
 
       <AtelierMotion/>

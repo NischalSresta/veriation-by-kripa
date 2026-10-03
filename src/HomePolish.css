@@ -1,0 +1,73 @@
+/* Home-only colour and interaction accents. The store's layout stays familiar. */
+.home-editorial{--sage:#dde2d1;--champagne:#e8cf9f;--petal:#e1b2bd}
+.home-editorial .section-heading .eyebrow{color:#704455}
+.home-editorial .client-work-showcase{background:#edf0e7;margin-top:80px;padding-top:70px;padding-bottom:70px}
+.home-editorial .client-work-grid article:nth-child(2) .client-work-photo{border-radius:48% 48% 0 0}
+.home-editorial .client-work-grid article:nth-child(4) .client-work-photo{border-radius:0 0 38% 0}
+.home-editorial .atelier-scroll-scene .atelier-study{background:#efe0db;transition:background-color 600ms ease}
+.home-editorial .atelier-scroll-scene .study-1{background:#f0e6d8}
+.home-editorial .atelier-scroll-scene .study-2{background:#e4e8de}
+.home-editorial .bloom-garden{background:#593343;color:var(--ivory);transition:background-color 650ms ease}
+.home-editorial .bloom-tone-0{background:#6b3d50}
+.home-editorial .bloom-tone-1{background:#594638}
+.home-editorial .bloom-tone-2{background:#414b40}
+.home-editorial .bloom-intro>.eyebrow,.home-editorial .bloom-intro>p,.home-editorial .bloom-footer p{color:#f0dfe2}
+.home-editorial .bloom-garden .garden-flower{color:var(--ivory)}
+.home-editorial .bloom-garden .garden-stems{stroke:#d7d9bf}
+.home-editorial .bloom-garden .garden-petal{fill:#e1b2bd77;stroke:#f0cbd4;stroke-width:.9;opacity:1;transform:scale(.42,.58)}
+.home-editorial .bloom-garden.garden-visible .garden-petal{transform:scale(.66,.8)}
+.home-editorial .bloom-garden .flower-1 .garden-petal{fill:#e8cf9f66;stroke:#f5ddb1}
+.home-editorial .bloom-garden .flower-2 .garden-petal{fill:#bbc8a477;stroke:#e2e8cc}
+.home-editorial .bloom-garden .petal-vein{stroke:var(--ivory)}
+.home-editorial .bloom-garden .flower-heart{fill:#f4dec2}
+.home-editorial .bloom-garden .flower-heart-inner{fill:#6a4a30}
+.home-editorial .bloom-garden .garden-flower:hover .garden-petal,
+.home-editorial .bloom-garden .garden-flower:focus-visible .garden-petal,
+.home-editorial .bloom-garden .garden-flower.flower-open .garden-petal{fill:#e1b2bddd;transform:scale(1)}
+.home-editorial .bloom-garden .flower-1:hover .garden-petal,
+.home-editorial .bloom-garden .flower-1:focus-visible .garden-petal,
+.home-editorial .bloom-garden .flower-1.flower-open .garden-petal{fill:#e8cf9fdd}
+.home-editorial .bloom-garden .flower-2:hover .garden-petal,
+.home-editorial .bloom-garden .flower-2:focus-visible .garden-petal,
+.home-editorial .bloom-garden .flower-2.flower-open .garden-petal{fill:#bbc8a4dd}
+.home-editorial .bloom-garden :focus-visible{outline-color:var(--ivory)}
+.home-editorial .bloom-footer{min-height:70px;border-top:1px solid #f7f2ec33;padding-top:20px}
+.home-editorial .bloom-footer p{font:italic clamp(20px,2vw,29px)/1.25 var(--editorial);max-width:430px;margin:0}
+.home-editorial .bloom-footer .text-link{color:var(--ivory);min-height:44px}
+.home-editorial .zefo-category>div{transition:color 250ms ease,transform 250ms var(--ease)}
+.home-editorial .zefo-category:hover>div,.home-editorial .zefo-category:focus-visible>div{color:var(--plum);transform:translateX(5px)}
+.home-editorial .project-zoom{border-radius:50%;width:44px;height:44px;transition:transform 250ms var(--ease)}
+.home-editorial .project-photo:hover .project-zoom,.home-editorial .project-photo:focus-visible .project-zoom{transform:rotate(8deg)}
+.mobile-edit-controls{display:none}
+@media(prefers-reduced-motion:no-preference){
+ .home-editorial .client-work-grid .revealed .client-work-photo,
+ .home-editorial .bespoke-grid .revealed .project-photo{animation:atelier-image-unfold 850ms var(--ease) both}
+ @keyframes atelier-image-unfold{from{clip-path:polygon(0 0,100% 0,100% 12%,0 32%)}to{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}}
+}
+@media(max-width:767px){
+ .home-editorial .client-work-showcase{margin-top:55px;padding-top:50px;padding-bottom:50px}
+ .home-editorial .client-work-grid h3{font-size:clamp(22px,6vw,27px)}
+ .home-editorial .atelier-scroll-scene{height:185svh}
+ .home-editorial .bloom-garden{padding-top:48px;padding-bottom:30px}
+ .home-editorial .bloom-intro h2{font-size:clamp(43px,13vw,57px)}
+ .home-editorial .bloom-footer{gap:15px;min-height:125px;margin-top:12px;padding-top:23px}
+ .home-editorial .bloom-footer p{font-size:24px;max-width:290px}
+ .home-editorial .garden-flower>span{opacity:1}
+ .home-editorial .story-tabs button{min-height:44px}
+ .home-editorial .work-picker button{min-height:44px;padding:8px 2px}
+ .home-editorial .mobile-edit-controls{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:18px;font-size:11px;color:var(--plum)}
+ .rail-count{display:block;font-size:9px;font-variant-numeric:tabular-nums;color:var(--muted);margin-top:5px;letter-spacing:.08em}
+ .mobile-edit-controls>div{display:flex;gap:8px}
+ .mobile-edit-controls button{display:grid;place-items:center;width:44px;height:44px;border:1px solid #59334355;border-radius:50%;padding:0;background:transparent;color:var(--plum);transition:background 200ms,color 200ms,transform 200ms}
+ .mobile-edit-controls button:disabled{opacity:.3;cursor:default}
+ .mobile-edit-controls button:active:not(:disabled){background:var(--plum);color:var(--ivory);transform:scale(.95)}
+ .home-editorial .product-grid{scroll-snap-type:x mandatory;scroll-padding-inline:0}
+ .home-editorial .product-card{scroll-snap-align:start}
+ .home-editorial .zefo-category:active>div{color:var(--plum);transform:translateX(4px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .home-editorial .atelier-scroll-scene{height:auto}
+ .home-editorial .bloom-garden,.home-editorial .atelier-study,.home-editorial .project-zoom,
+ .home-editorial .zefo-category>div,.mobile-edit-controls button{transition:none;transform:none}
+ .home-editorial .garden-petal,.home-editorial .flower-head{transition:none}
+}

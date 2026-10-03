@@ -4,6 +4,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { AnimatedHeading } from './Editorial';
 import { clientLooks, heroWork } from '../data/landingLooks';
 import { heroPlaceholder } from '../data/heroPlaceholder';
+import { Reveal } from './UI';
 
 export function WorkPhoto({look, decorative=false, portraitFallback=false, cropOverride}) {
   const [failed,setFailed]=useState(false);
@@ -104,6 +105,6 @@ export default function WorkHero() {
 export function ClientWorkShowcase(){
   return <section className="section client-work-showcase">
     <div className="section-heading"><AnimatedHeading>From her imagination. Into their world.</AnimatedHeading><Link className="text-link" to="/bespoke">Discover bespoke <ArrowUpRight size={18}/></Link></div>
-    <div className="client-work-grid">{clientLooks.map(look=><article key={look.id}><div className="client-work-photo"><WorkPhoto look={look}/></div><h3>{look.title}</h3><p>{look.credit}</p><a className="source-link" href={look.source} target="_blank" rel="noreferrer">{look.name} <ArrowUpRight size={13}/></a></article>)}</div>
+    <div className="client-work-grid">{clientLooks.map((look,index)=><Reveal as="article" key={look.id} style={{'--reveal-delay':`${index*70}ms`}}><div className="client-work-photo"><WorkPhoto look={look}/></div><h3>{look.title}</h3><p>{look.credit}</p><a className="source-link" href={look.source} target="_blank" rel="noreferrer">{look.name} <ArrowUpRight size={13}/></a></Reveal>)}</div>
   </section>;
 }

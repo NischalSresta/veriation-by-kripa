@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { formatPrice, imagePath } from '../data/catalog';
 import { Image, Reveal } from './UI';
 
@@ -70,9 +71,41 @@ export default function ProductGrid({
   products,
   headingAs = 'h3',
   eager = false,
+  showControls = false,
 }) {
+  const rail = useRef(null);
+  const [position, setPosition] = useState(1);
+  const [atEnd, setAtEnd] = useState(false);
+  useEffect(() => {
+    if (!showControls) return;
+    const node = rail.current;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const cards = [...node.children];
+      const nearest = cards.reduce((best, card, index) =>
+        Math.abs(card.offsetLeft - node.offsetLeft - node.scrollLeft) < best.distance
+          ? { index, distance: Math.abs(card.offsetLeft - node.offsetLeft - node.scrollLeft) } : best,
+        { index: 0, distance: Infinity });
+      setPosition(nearest.index + 1);
+      setAtEnd(node.scrollLeft + node.clientWidth >= node.scrollWidth - 2);
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const resize = new ResizeObserver(schedule);
+    resize.observe(node);
+    node.addEventListener('scroll', schedule, { passive: true });
+    update();
+    return () => { resize.disconnect(); node.removeEventListener('scroll', schedule); cancelAnimationFrame(frame); };
+  }, [showControls, products.length]);
+  const move = direction => {
+    const node = rail.current;
+    const card = node.children[0];
+    const gap = parseFloat(getComputedStyle(node).columnGap) || 0;
+    node.scrollBy({ left: direction * (card.getBoundingClientRect().width + gap), behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+  };
   return (
-    <div
+    <><div
+      ref={rail}
       className="product-grid"
       role="region"
       aria-label="Products - swipe left or right to browse on mobile"
@@ -87,7 +120,9 @@ export default function ProductGrid({
           key={product.id}
         />
       ))}
-    </div>
+    </div>{showControls && <div className="mobile-edit-controls">
+      <span>Explore the edit <span className="rail-count">{String(position).padStart(2,'0')} / {String(products.length).padStart(2,'0')}</span></span>
+      <div><button type="button" aria-label="Previous favourite" disabled={position === 1} onClick={() => move(-1)}><ChevronLeft size={18}/></button><button type="button" aria-label="Next favourite" disabled={atEnd} onClick={() => move(1)}><ChevronRight size={18}/></button></div>
+    </div>}</>
   );
 }
-import { useState } from 'react';
