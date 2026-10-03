@@ -13,6 +13,7 @@
 .home-editorial .bloom-tone-2{background:#414b40}
 .home-editorial .bloom-intro>.eyebrow,.home-editorial .bloom-intro>p,.home-editorial .bloom-footer p{color:#f0dfe2}
 .home-editorial .bloom-garden .garden-flower{color:var(--ivory)}
+.home-editorial .bloom-canvas{height:430px}
 .home-editorial .bloom-garden .garden-stems{stroke:#d7d9bf}
 .home-editorial .bloom-garden .garden-petal{fill:#e1b2bd77;stroke:#f0cbd4;stroke-width:.9;opacity:1;transform:scale(.42,.58)}
 .home-editorial .bloom-garden.garden-visible .garden-petal{transform:scale(.66,.8)}
@@ -49,6 +50,7 @@
  .home-editorial .client-work-grid h3{font-size:clamp(22px,6vw,27px)}
  .home-editorial .atelier-scroll-scene{height:185svh}
  .home-editorial .bloom-garden{padding-top:48px;padding-bottom:30px}
+ .home-editorial .bloom-canvas{height:240px}
  .home-editorial .bloom-intro h2{font-size:clamp(43px,13vw,57px)}
  .home-editorial .bloom-footer{gap:15px;min-height:125px;margin-top:12px;padding-top:23px}
  .home-editorial .bloom-footer p{font-size:24px;max-width:290px}
